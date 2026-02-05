@@ -304,6 +304,7 @@
             type = "app";
             program = toString (pkgs.writeShellScript "llama-cli" ''
               export HSA_OVERRIDE_GFX_VERSION=11.5.1
+              export LD_LIBRARY_PATH=${pkgs.rocm7-bin-gfx1151}/lib:${pkgs.rocm7-bin-gfx1151}/lib/rocm_sysdeps/lib:''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
               ${self.packages.${system}.llamacpp-rocm-gfx1151-rocwmma}/bin/llama-cli "$@"
             '');
           };
@@ -312,6 +313,7 @@
             type = "app";
             program = toString (pkgs.writeShellScript "llama-server" ''
               export HSA_OVERRIDE_GFX_VERSION=11.5.1
+              export LD_LIBRARY_PATH=${pkgs.rocm7-bin-gfx1151}/lib:${pkgs.rocm7-bin-gfx1151}/lib/rocm_sysdeps/lib''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
               ${self.packages.${system}.llamacpp-rocm-gfx1151-rocwmma}/bin/llama-server "$@"
             '');
           };
