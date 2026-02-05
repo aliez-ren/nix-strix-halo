@@ -31,6 +31,9 @@ in
         zlib
         ncurses
         ocl-icd
+        expat
+        numactl
+        libtool.lib
       ];
 
       autoPatchelfIgnoreMissingDeps = [
