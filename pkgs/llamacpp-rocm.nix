@@ -78,11 +78,6 @@ pkgs.stdenv.mkDerivation {
   hardeningDisable = [ "all" ];
   src = llama-cpp;
 
-  patches = pkgs.lib.optionals enableRocwmma [
-    ../patches/rocwmma-compatibility.patch
-    ../patches/hip-version-fix.patch
-  ];
-
   nativeBuildInputs = with pkgs; [
     cmake
     ninja
