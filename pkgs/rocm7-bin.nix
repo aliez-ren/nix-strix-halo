@@ -40,6 +40,7 @@ in
         "libtest_linking_lib1.so"
         "libtest_linking_lib2.so"
       ];
+      dontCheckForBrokenSymlinks = true;
 
       unpackPhase = "tar -xzf $src";
 
