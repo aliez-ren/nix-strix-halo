@@ -122,6 +122,7 @@ pkgs.stdenv.mkDerivation {
     "-DLLAMA_CURL=ON"
     "-DGGML_NATIVE=OFF"
   ] ++ pkgs.lib.optionals enableRocwmma [
+    "-DGGML_HIP_WMMA=ON"
     "-DGGML_HIP_ROCWMMA_FATTN=ON"
     "-DLLAMA_HIP_UMA=ON"
   ];
