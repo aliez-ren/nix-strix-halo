@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   update-and-build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     steps:
       - uses: actions/checkout@v4
 
@@ -21,7 +21,7 @@ jobs:
           df -h /
 
       - uses: DeterminateSystems/nix-installer-action@main
-      - uses: DeterminateSystems/magic-nix-cache-action@main
+      # - uses: DeterminateSystems/magic-nix-cache-action@main
 
       - name: Update ROCm sources
         run: python3 update-rocm.py
@@ -38,12 +38,12 @@ jobs:
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Build packages
-        run: |
-          nix build .#llamacpp-rocm-gfx1151 --no-link
-          nix build .#llamacpp-rocm-gfx1151-rocwmma --no-link
-          nix build .#llamacpp-rocm-bin-gfx1151 --no-link
-          nix build .#llama-cpp-vulkan --no-link
+      # - name: Build packages
+      #   run: |
+      #     nix build .#llamacpp-rocm-gfx1151 --no-link
+      #     nix build .#llamacpp-rocm-gfx1151-rocwmma --no-link
+      #     nix build .#llamacpp-rocm-bin-gfx1151 --no-link
+      #     nix build .#llama-cpp-vulkan --no-link
 
       - name: Commit updated sources
         if: steps.changes.outputs.changed == 'true'
