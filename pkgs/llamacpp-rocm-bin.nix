@@ -11,7 +11,7 @@ stdenv.mkDerivation rec {
   pname = "llamacpp-rocm";
   version = "b1025";
 
-  # Select the appropriate GPU target (gfx110X for RDNA3, gfx1151 for STX Halo, gfx120X for RDNA4)
+  # GPU target for Strix Halo
   gfxTarget = "gfx1151";
 
   src = fetchzip {

@@ -5,14 +5,12 @@ A Nix flake for building llama.cpp with pre-built ROCm binaries from TheRock pro
 ## Features
 
 - Pre-built ROCm 7 binaries from TheRock's nightly builds
-- Support for multiple GPU targets (gfx110X, gfx1151, gfx120X)
+- Built for gfx1151 (Strix Halo / Ryzen AI MAX+ Pro 395)
 - ROCWMMA support for faster flash attention
 
-## Supported GPU Targets
+## Supported GPU Target
 
-- **gfx110X** - RDNA3 GPUs (RX 7900 XTX/XT/GRE, RX 7800 XT, RX 7700 XT)
-- **gfx1151** - STX Halo GPUs (Ryzen AI MAX+ Pro 395)
-- **gfx120X** - RDNA4 GPUs (RX 9070 XT/GRE/9070, RX 9060 XT)
+- **gfx1151** - Strix Halo GPUs (Ryzen AI MAX+ Pro 395)
 
 ## Prerequisites
 
@@ -22,19 +20,13 @@ A Nix flake for building llama.cpp with pre-built ROCm binaries from TheRock pro
 ## Available Nix Packages
 
 ### Standard Llama.cpp Packages
-- `llama-cpp-gfx110X` - Llama.cpp built for RDNA3 GPUs
-- `llama-cpp-gfx1151` - Llama.cpp built for STX Halo GPUs  
-- `llama-cpp-gfx120X` - Llama.cpp built for RDNA4 GPUs
+- `llamacpp-rocm.gfx1151` - Llama.cpp built for Strix Halo GPUs
 
 ### ROCWMMA-Optimized Packages (15x faster flash attention)
-- `llama-cpp-gfx110X-rocwmma` - RDNA3 with ROCWMMA and hipBLASLt
-- `llama-cpp-gfx1151-rocwmma` - STX Halo with ROCWMMA and hipBLASLt
-- `llama-cpp-gfx120X-rocwmma` - RDNA4 with ROCWMMA and hipBLASLt
+- `llamacpp-rocm.gfx1151-rocwmma` - Strix Halo with ROCWMMA and hipBLASLt
 
 ### ROCm Packages
-- `rocm-gfx110X` - Pre-built ROCm for RDNA3
-- `rocm-gfx1151` - Pre-built ROCm for STX Halo
-- `rocm-gfx120X` - Pre-built ROCm for RDNA4
+- `rocm-gfx1151` - Pre-built ROCm for Strix Halo
 
 ## Updating Dependencies
 
@@ -43,14 +35,7 @@ A Nix flake for building llama.cpp with pre-built ROCm binaries from TheRock pro
 The ROCm binaries are fetched from TheRock's nightly builds. To update to the latest versions:
 
 ```bash
-# Update all targets
 python3 update-rocm.py
-
-# Update specific targets only
-python3 update-rocm.py --targets gfx110X,gfx1151
-
-# Specify output file
-python3 update-rocm.py --output rocm-sources.json
 ```
 
 ### Updating llama.cpp
@@ -87,7 +72,7 @@ This flake provides an overlay that can be used in other Nix projects to easily 
           
           # Now you can use the packages
           environment.systemPackages = with pkgs; [
-            llamacpp-rocm.gfx1151
+            llamacpp-rocm.gfx1151-rocwmma
           ];
         })
       ];
@@ -95,21 +80,6 @@ This flake provides an overlay that can be used in other Nix projects to easily 
   };
 }
 ```
-
-## Benchmarks
-
-❯ cat $(nix build .\#benchmarks.llama2-7b.llama-cpp-rocm-gfx1151-rocwmma-b512-fa1 --print-out-paths)
-warning: Git tree '/Users/grw/src/nix-llamacpp-rocm' is dirty
-───────┬─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-       │ File: /nix/store/rxsqd36vcnmkaq73d7n1qkw584jgzia7-benchmark-llama-cpp-rocm-gfx1151-rocwmma
-───────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-   1   │ | model                          |       size |     params | backend    | ngl | n_batch | fa |            test |                  t/s |
-   2   │ | ------------------------------ | ---------: | ---------: | ---------- | --: | ------: | -: | --------------: | -------------------: |
-   3   │ | llama 7B Q4_K - Medium         |   3.80 GiB |     6.74 B | ROCm,RPC   |  99 |     512 |  1 |           pp512 |        821.55 ± 1.72 |
-   4   │ | llama 7B Q4_K - Medium         |   3.80 GiB |     6.74 B | ROCm,RPC   |  99 |     512 |  1 |           tg128 |         33.81 ± 0.10 |
-   5   │ 
-   6   │ build: unknown (0)
-───────┴─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ## NixOS Modules
 
@@ -144,7 +114,7 @@ The RPC server module allows you to run a llama.cpp RPC server as a systemd serv
         ({ pkgs, ... }: {
           services.llamacpp-rpc-server = {
             enable = true;
-            package = pkgs.llamacpp-rocm.gfx1151;  # Choose your GPU target
+            package = pkgs.llamacpp-rocm.gfx1151-rocwmma;
             threads = 32;
             host = "0.0.0.0";  # Listen on all interfaces
             port = 50052;
@@ -165,7 +135,7 @@ The RPC server module allows you to run a llama.cpp RPC server as a systemd serv
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | `enable` | bool | false | Enable the RPC server service |
-| `package` | package | `pkgs.llamacpp-rocm.gfx1151` | llama.cpp package to use |
+| `package` | package | `pkgs.llamacpp-rocm.gfx1151-rocwmma` | llama.cpp package to use |
 | `threads` | int | 64 | Number of CPU threads |
 | `device` | null or string | null | GPU device ID (e.g., "0") |
 | `host` | string | "127.0.0.1" | Host to bind to |

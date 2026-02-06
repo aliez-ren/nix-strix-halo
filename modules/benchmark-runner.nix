@@ -12,7 +12,7 @@ in {
     enable = mkEnableOption "benchmark runner configuration";
 
     gpuTarget = mkOption {
-      type = types.enum ["gfx110X" "gfx1151" "gfx120X"];
+      type = types.enum ["gfx1151"];
       default = "gfx1151";
       description = "GPU architecture target";
     };

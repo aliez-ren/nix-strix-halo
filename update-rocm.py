@@ -49,11 +49,6 @@ def find_latest_rocm_file(target, platform="linux"):
     """Find the latest ROCm tarball for a given target."""
     # Map targets to S3 suffixes
     s3_target = target
-    if target == "gfx110X":
-        s3_target = f"{target}-dgpu"
-    elif target == "gfx120X":
-        s3_target = f"{target}-all"
-    
     prefix = f"therock-dist-{platform}-{s3_target}-"
     files = get_s3_listing(prefix)
     
@@ -167,8 +162,8 @@ def main():
     )
     parser.add_argument(
         "--targets",
-        default="gfx110X,gfx1151,gfx120X",
-        help="Comma-separated list of GPU targets (default: gfx110X,gfx1151,gfx120X)"
+        default="gfx1151",
+        help="Comma-separated list of GPU targets (default: gfx1151)"
     )
     parser.add_argument(
         "--platforms",

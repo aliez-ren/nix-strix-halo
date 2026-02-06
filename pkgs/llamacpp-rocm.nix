@@ -11,7 +11,7 @@
 
 let
   # Build amdgpuTargets for all our supported GPUs
-  amdgpuTargets = "gfx1100;gfx1151;gfx1200;gfx1201";
+  amdgpuTargets = "gfx1151";
 
   # Get gccLibWrapper from the clang wrapper
   gccLibWrapper = rocmClangWrapper.gccLibWrapper;
