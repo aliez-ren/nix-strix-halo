@@ -96,17 +96,6 @@ pkgs.stdenv.mkDerivation {
     rocwmma
   ];
 
-  postPatch = ''
-    substituteInPlace ggml/src/ggml-cuda/vendors/hip.h \
-      --replace "HIP_VERSION >= 70000000" "HIP_VERSION >= 50600000"
-  '' + pkgs.lib.optionalString enableRocwmma ''
-    # Apply ROCWMMA compatibility fixes (following amd-strix-halo-toolboxes approach)
-    # Replace hardcoded warp masks with GGML_HIP_WARP_MASK macro for ROCWMMA compatibility
-    find ggml/src/ggml-cuda -name "*.cu" -o -name "*.cuh" | while read file; do
-      sed -i 's/0xFFFFFFFF/GGML_HIP_WARP_MASK/g; s/0xffffffff/GGML_HIP_WARP_MASK/g' "$file" || true
-    done
-  '';
-
   cmakeFlags = [
     "-G Ninja"
     "-DCMAKE_C_COMPILER=${pkgs.clang}/bin/clang"
@@ -162,7 +151,7 @@ pkgs.stdenv.mkDerivation {
 
   meta = with pkgs.lib; {
     description = "Llama.cpp with ROCm support for ${target}";
-    homepage = "https://github.com/ggerganov/llama.cpp";
+    homepage = "https://github.com/ggml-org/llama.cpp";
     license = licenses.mit;
     platforms = [ "x86_64-linux" ];
   };

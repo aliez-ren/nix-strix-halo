@@ -139,13 +139,13 @@
       "locked": {
         "lastModified": 1770311242,
         "narHash": "sha256-OtTh5MAcg5HAwC6JIcs9ViXCzi5F6DjqIJo/hFX0/0A=",
-        "owner": "ggerganov",
+        "owner": "ggml-org",
         "repo": "llama.cpp",
         "rev": "22cae832188a1f08d18bd0a707a4ba5cd03c7349",
         "type": "github"
       },
       "original": {
-        "owner": "ggerganov",
+        "owner": "ggml-org",
         "repo": "llama.cpp",
         "type": "github"
       }
