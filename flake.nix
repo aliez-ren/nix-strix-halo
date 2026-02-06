@@ -12,7 +12,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     llama-cpp = {
-      url = "github:ggerganov/llama.cpp";
+      url = "github:ggml-org/llama.cpp";
       flake = false;
     };
     rocwmma = {
