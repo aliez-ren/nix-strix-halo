@@ -1,11 +1,11 @@
 {
   "linux": {
     "gfx1151": {
-      "url": "https://therock-nightly-tarball.s3.amazonaws.com/therock-dist-linux-gfx1151-7.12.0a20260217.tar.gz",
-      "sha256": "1683c26ff9240386882e4658f37860a2e17c166f8660604d9475bb07c2352a14",
-      "version": "7.12.0a20260217",
-      "filename": "therock-dist-linux-gfx1151-7.12.0a20260217.tar.gz",
-      "updated": "2026-02-17T19:20:09.967452Z"
+      "url": "https://therock-nightly-tarball.s3.amazonaws.com/therock-dist-linux-gfx1151-7.12.0a20260218.tar.gz",
+      "sha256": "359c33b08770cb28acc8beeb452ecb23845ec095b94043fc1a9ab392ebaea5f6",
+      "version": "7.12.0a20260218",
+      "filename": "therock-dist-linux-gfx1151-7.12.0a20260218.tar.gz",
+      "updated": "2026-02-18T19:20:09.625816Z"
     }
   }
 }
