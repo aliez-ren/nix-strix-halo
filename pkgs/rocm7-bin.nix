@@ -39,6 +39,12 @@ in
       autoPatchelfIgnoreMissingDeps = [
         "libtest_linking_lib1.so"
         "libtest_linking_lib2.so"
+        "libpython3.10.so.1.0"
+        "libpython3.11.so.1.0"
+        "libpython3.12.so.1.0"
+        "libpython3.13.so.1.0"
+        "libpython3.14.so.1.0"
+        "libcrypt.so.1"
       ];
       dontCheckForBrokenSymlinks = true;
 
